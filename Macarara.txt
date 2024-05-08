@@ -1,0 +1,52 @@
+import robocode.*;
+
+public class AggressiveBot extends AdvancedRobot {
+
+    @Override
+    public void run() {
+        // Configurar a cor do robô
+        setColors(black, black, black);
+
+        // Rodar em um loop infinito
+        while (true) {
+            // Ficar atento aos inimigos
+            turnRadarRight(Double.POSITIVE_INFINITY);
+        }
+    }
+
+    @Override
+    public void onScannedRobot(ScannedRobotEvent event) {
+        // Obter a distância do robô inimigo
+        double distance = event.getDistance();
+        // Girar o canhão para o robô inimigo
+        double bearing = event.getBearing();
+        turnGunRight(normalizeBearing(getHeading() - getGunHeading() + bearing));
+
+        // Atirar em robôs inimigos
+        if (distance < 200) {
+            fire(3);
+        } else {
+            fire(1);
+        }
+
+        // Avançar para a posição do robô inimigo para ser mais agressivo
+        ahead(distance - 50);
+    }
+
+    @Override
+    public void onHitWall(HitWallEvent event) {
+        // Recuar quando colidir com uma parede
+        back(100);
+        turnRight(90);
+    }
+
+    private double normalizeBearing(double angle) {
+        while (angle > 180) {
+            angle -= 360;
+        }
+        while (angle < -180) {
+            angle += 360;
+        }
+        return angle;
+    }
+}
