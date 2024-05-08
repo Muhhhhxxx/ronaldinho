@@ -1,6 +1,6 @@
 import robocode.*;
 
-public class AggressiveBot extends AdvancedRobot {
+public class Macarara extends AdvancedRobot {
 
     @Override
     public void run() {
